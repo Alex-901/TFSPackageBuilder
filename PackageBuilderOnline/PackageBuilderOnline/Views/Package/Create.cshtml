@@ -1,0 +1,88 @@
+﻿@model PackageBuilderOnline.Models.GenerationOptions
+
+@{
+    ViewBag.Title = "Generation Options";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval");
+}
+
+@using (Html.BeginForm("Create", "Package", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="settings-container">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(m => m.ReleaseId)
+            </div>
+            <div>
+                @Html.EditorFor(model => model.ReleaseId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReleaseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(m => m.SelectedFilesTypes)
+            </div>
+            <div>
+                @Html.ListBoxFor(m => m.SelectedFilesTypes, @Model.GetFileTypes(), new { @class = "selectpicker" })
+                <br />
+                @Html.ValidationMessageFor(model => model.SelectedFilesTypes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 50px;">
+            <div>
+                <input type="submit" value="Generate" class="btn btn-default" id="submit" />
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 50px;">
+            <div>
+                <h5>
+                    @Html.DisplayFor(m => m.PageErrorMessage)
+                </h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="hover-container" id="hoverDiv">
+        <div id="divFilePath">
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+
+    //$('#UploadedFilePath').on('mouseover', function () {
+    //    if ($('#hoverDiv > div')[0].innerHTML.trim().length > 0) {
+    //        $('#hoverDiv').css('left', $(this).outerWidth() + $(this).offset().left).css('top', $(this).offset().top - $(this).outerHeight()).fadeIn(500);
+    //    }
+    //});
+
+    //$('#UploadedFilePath').on('mouseout', function () {
+    //    $('#hoverDiv').hide();
+    //});
+
+    //$('#OutputPath').on('change', function () {
+
+    //    var fileName = document.getElementById('OutputPath').value;
+
+    //    $.ajax({
+    //        type: "GET",
+    //        url: 'http://localhost:48299/Package/GetFilePath/',
+    //        data: {
+    //            fileName: fileName
+    //        },
+    //        cache: false,
+    //        success: function (data) {
+    //            $("#divFilePath").append(data);
+    //            $('#UploadedFilePath').attr("src", "/Content/tick.png");
+    //        }
+    //    });
+    //});
+
+
+</script>

@@ -1,0 +1,75 @@
+﻿@model PackageBuilderOnline.Models.Results
+
+@{
+    ViewBag.Title = "Results";
+}
+
+@{
+    var outputPath = string.IsNullOrWhiteSpace(Model.OutputPath) ? string.Empty : Model.OutputPath.Replace("\\", "\\\\");
+}
+
+@using (Html.BeginForm("Results", "Package", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="settings-container">
+        <div class="form-group" style="margin-top: 50px;">
+            <div>
+                <h5>
+                    @Html.DisplayFor(m => m.PageMessage)
+                </h5>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 50px;">
+            <div>
+                <input type="button" onclick="javascript:ShowPackage();" class="btn btn-default" value="View Package" />
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 50px;">
+            <div>
+                @Html.ActionLink("New Package", "Index")
+            </div>
+        </div>
+    </div>
+
+    if (Model.Exceptions.Any())
+    {
+        <div class="results-container">
+            <div class="results-master">
+                <div onclick="CloseResults()" class="result-exit">Close</div>
+
+                <p>Exceptions</p>
+                <ul>
+                    @foreach (var item in Model.Exceptions)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+}
+<script type="text/javascript">
+
+    $('.results-master').scroll(function () {
+        $('.result-exit').css({ top: $(this).scrollTop() });
+    });
+
+    function CloseResults() {
+        $('.results-container').hide();
+    }
+
+    function ShowPackage() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ShowPackageFolder", "Package")',
+            data: {
+                Path: '@outputPath'
+            },
+            cache: false,
+            success: function (data) {
+            }
+        });
+    }
+
+</script>
